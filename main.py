@@ -82,6 +82,7 @@ net = NesT(image_size=32,
         channels = 3,
         dim_head = 64,
         dropout = 0.)
+print("WE USE NEST !!!!")
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
