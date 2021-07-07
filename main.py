@@ -21,6 +21,8 @@ parser.add_argument('--resume', '-r', action='store_true',
                     help='resume from checkpoint')
 args = parser.parse_args()
 
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
+
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
 start_epoch = 0  # start from epoch 0 or last checkpoint epoch
@@ -68,7 +70,18 @@ print('==> Building model..')
 # net = ShuffleNetV2(1)
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
-net = SimpleDLA()
+# net = SimpleDLA()
+net = NesT(image_size=32,
+        patch_size=4,
+        num_classes=10,
+        dim=768,
+        heads=12,
+        num_hierarchies=4,
+        block_repeats=[3, 3, 3, 3],
+        mlp_mult = 4,
+        channels = 3,
+        dim_head = 64,
+        dropout = 0.)
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
