@@ -16,7 +16,7 @@ from utils import progress_bar
 
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
-parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
+parser.add_argument('--lr', default=2.5e-4, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true',
                     help='resume from checkpoint')
 args = parser.parse_args()
@@ -98,8 +98,11 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr,
-                      momentum=0.9, weight_decay=5e-4)
+# optimizer = optim.SGD(net.parameters(), lr=args.lr,
+#                       momentum=0.9, weight_decay=5e-4)
+optimizer = optim.AdamW(net.parameters(), lr=args.lr,
+                        weight_decay=0.05)
+
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 
 
@@ -162,7 +165,20 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch+200):
+
+def convert_byte(v):
+    units = {'Bytes':1,'KB':1e-3, 'MB':1e-6, 'GB':1e-9}
+    tmp = 'Bytes'
+    for k in list(units.keys()):
+        if int(v*units[k]) == 0:
+            return v*units[tmp], tmp
+        tmp = k
+    return v*units[tmp], tmp
+
+for epoch in range(start_epoch, start_epoch+300):
+    print(convert_byte(torch.cuda.max_memory_allocated()))
     train(epoch)
     test(epoch)
     scheduler.step()
+
+
