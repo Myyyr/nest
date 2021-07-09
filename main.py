@@ -72,7 +72,7 @@ print('==> Building model..')
 # net = RegNetX_200MF()
 # net = SimpleDLA()
 net = NesT(image_size=32,
-        patch_size=4,
+        patch_size=1,
         num_classes=10,
         dim=192,
         heads=3,
