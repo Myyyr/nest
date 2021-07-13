@@ -121,7 +121,8 @@ class NesT(nn.Module):
 
         seq_len = (fmap_size // blocks) ** 2   # sequence length is held constant across heirarchy
         hierarchies = list(reversed(range(num_hierarchies)))
-        mults = [2 ** i for i in hierarchies]
+        # mults = [2 ** i for i in hierarchies]
+        mults = [1 for i in hierarchies]
 
         layer_heads = list(map(lambda t: t * heads, mults))
         layer_dims = list(map(lambda t: t * dim, mults))
