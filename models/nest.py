@@ -130,7 +130,7 @@ class NesT(nn.Module):
         layer_dims = [*layer_dims, layer_dims[-1]]
 
         print("layer_dims ", layer_dims)
-        exit(0)
+        # exit(0)
         dim_pairs = zip(layer_dims[:-1], layer_dims[1:])
 
         self.to_patch_embedding = nn.Sequential(
