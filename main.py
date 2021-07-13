@@ -78,7 +78,7 @@ net = NesT(image_size=32,
         heads=3,
         num_hierarchies=4,
         block_repeats=(3, 3, 3, 3),
-        mlp_mult = 1,
+        mlp_mult = 4,
         channels = 3,
         dim_head = 64,
         dropout = 0.)
