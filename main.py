@@ -57,7 +57,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-# net = ResNet18()
+net = ResNet18()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -71,18 +71,18 @@ print('==> Building model..')
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
 # net = SimpleDLA()
-net = NesT(image_size=32,
-        patch_size=1,
-        num_classes=10,
-        dim=192,
-        heads=3,
-        num_hierarchies=4,
-        block_repeats=(3, 3, 3, 3),
-        mlp_mult = 4,
-        channels = 3,
-        dim_head = 64,
-        dropout = 0.)
-print("WE USE NEST !!!!")
+# net = NesT(image_size=32,
+#         patch_size=1,
+#         num_classes=10,
+#         dim=192,
+#         heads=3,
+#         num_hierarchies=4,
+#         block_repeats=(3, 3, 3, 3),
+#         mlp_mult = 4,
+#         channels = 3,
+#         dim_head = 64,
+#         dropout = 0.)
+# print("WE USE NEST !!!!")
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
