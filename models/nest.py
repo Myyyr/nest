@@ -162,7 +162,7 @@ class NesT(nn.Module):
         for level, (transformer, aggregate) in zip(reversed(range(num_hierarchies)), self.layers):
             block_size = 2 ** level
             print(level, 'x', x.shape)
-            print(level, 'block_size', block_size.shape)
+            print(level, 'block_size', block_size)
             x = rearrange(x, 'b c (b1 h) (b2 w) -> (b b1 b2) c h w', b1 = block_size, b2 = block_size)
             print(level, 'x', x.shape)
             x = transformer(x)
