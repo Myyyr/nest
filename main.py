@@ -15,7 +15,7 @@ from models import *
 from utils import progress_bar
 import timm.models.nest as nest
 # import pytorch_warmup as warmup
-
+import numpy as np
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=2.5e-4, type=float, help='learning rate')
