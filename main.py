@@ -42,16 +42,16 @@ transform_test = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
-
+batch_size = 32
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform_train)
 trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=32*2, shuffle=True, num_workers=2)
+    trainset, batch_size=batch_size*2, shuffle=True, num_workers=2)
 
 testset = torchvision.datasets.CIFAR10(
     root='./data', train=False, download=True, transform=transform_test)
 testloader = torch.utils.data.DataLoader(
-    testset, batch_size=32*2, shuffle=False, num_workers=2)
+    testset, batch_size=batch_size*2, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer',
            'dog', 'frog', 'horse', 'ship', 'truck')
@@ -59,7 +59,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-net = ResNet18()
+# net = ResNet18()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -99,14 +99,16 @@ net = ResNet18()
 #         dropout = 0.)
 
 ## timm : base
-# net = nest.Nest(img_size=32, in_chans=3, 
-#                 patch_size=1, num_levels=4, 
-#                 embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
-#                 depths=(3, 3, 3, 3), num_classes=10)
-# print("WE USE NEST !!!!")
+net = nest.Nest(img_size=32, in_chans=3, 
+                patch_size=1, num_levels=4, 
+                embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
+                depths=(3, 3, 3, 3), num_classes=10)
+print("WE USE NEST !!!!")
 model_parameters = filter(lambda p: p.requires_grad, net.parameters())
 params = sum([np.prod(p.size()) for p in model_parameters])
 print("PARAMS :", params)
+
+args.lr = args.lr*batch_size*2/256.0
 
 net = net.to(device)
 if device == 'cuda':
