@@ -100,7 +100,7 @@ print('==> Building model..')
 
 ## timm : base
 net = nest.Nest(img_size=32, in_chans=3, 
-                patch_size=1, num_levels=3, 
+                patch_size=1, num_levels=4, 
                 embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
                 depths=(3, 3, 3, 3), num_classes=10)
 print("WE USE NEST !!!!")
