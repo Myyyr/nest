@@ -104,6 +104,10 @@ net = nest.Nest(img_size=32, in_chans=3,
                 embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
                 depths=(3, 3, 3, 3), num_classes=10)
 print("WE USE NEST !!!!")
+model_parameters = filter(lambda p: p.requires_grad, net.parameters())
+params = sum([np.prod(p.size()) for p in model_parameters])
+print("PARAMS :", params)
+
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
@@ -139,8 +143,6 @@ def train(epoch):
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = net(inputs)
-        # print(outputs.shape)
-        # exit(0)
         loss = criterion(outputs, targets)
         loss.backward()
         optimizer.step()
