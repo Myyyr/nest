@@ -59,7 +59,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-net = ResNet18()
+# net = ResNet18()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -99,11 +99,11 @@ net = ResNet18()
 #         dropout = 0.)
 
 ## timm : base
-# net = nest.Nest(img_size=32, in_chans=3, 
-#                 patch_size=1, num_levels=4, 
-#                 embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
-#                 depths=(3, 3, 3, 3), num_classes=10)
-# print("WE USE NEST !!!!")
+net = nest.Nest(img_size=32, in_chans=3, 
+                patch_size=1, num_levels=4, 
+                embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
+                depths=(3, 3, 3, 3), num_classes=10)
+print("WE USE NEST !!!!")
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
@@ -139,6 +139,8 @@ def train(epoch):
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = net(inputs)
+        print(outputs.shape)
+        exit(0)
         loss = criterion(outputs, targets)
         loss.backward()
         optimizer.step()
