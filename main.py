@@ -14,6 +14,8 @@ import argparse
 from models import *
 from utils import progress_bar
 
+# import pytorch_warmup as warmup
+
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=2.5e-4, type=float, help='learning rate')
@@ -102,8 +104,9 @@ criterion = nn.CrossEntropyLoss()
 #                       momentum=0.9, weight_decay=5e-4)
 optimizer = optim.AdamW(net.parameters(), lr=args.lr,
                         weight_decay=0.05)
+warmup = 5
 
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=300-warmup)
 
 
 # Training
@@ -179,6 +182,7 @@ for epoch in range(start_epoch, start_epoch+300):
     print(convert_byte(torch.cuda.max_memory_allocated()))
     train(epoch)
     test(epoch)
-    scheduler.step()
+    if epoch >= warmup:
+        scheduler.step(epoch-warmup)
 
 
