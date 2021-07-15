@@ -13,7 +13,7 @@ import argparse
 
 from models import *
 from utils import progress_bar
-import timm
+import timm.models.nest as nest
 # import pytorch_warmup as warmup
 
 
@@ -99,11 +99,10 @@ print('==> Building model..')
 #         dropout = 0.)
 
 ## timm : base
-net = timm.create_model('nest_base', 
-    img_size=32, in_chans=3, 
-    patch_size=1, num_levels=3, 
-    embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
-    depths=(3, 3, 3, 3), num_classes=10)
+net = nest.Nest(img_size=32, in_chans=3, 
+                patch_size=1, num_levels=3, 
+                embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
+                depths=(3, 3, 3, 3), num_classes=10)
 print("WE USE NEST !!!!")
 net = net.to(device)
 if device == 'cuda':
