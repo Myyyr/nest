@@ -46,12 +46,12 @@ transform_test = transforms.Compose([
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform_train)
 trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=192*2, shuffle=True, num_workers=2)
+    trainset, batch_size=32*2, shuffle=True, num_workers=2)
 
 testset = torchvision.datasets.CIFAR10(
     root='./data', train=False, download=True, transform=transform_test)
 testloader = torch.utils.data.DataLoader(
-    testset, batch_size=192*2, shuffle=False, num_workers=2)
+    testset, batch_size=32*2, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer',
            'dog', 'frog', 'horse', 'ship', 'truck')
@@ -73,11 +73,24 @@ print('==> Building model..')
 # net = EfficientNetB0()
 # net = RegNetX_200MF()
 # net = SimpleDLA()
+## Tiny
+# net = NesT(image_size=32,
+#         patch_size=1,
+#         num_classes=10,
+#         dim=192,
+#         heads=3,
+#         num_hierarchies=4,
+#         block_repeats=(3, 3, 3, 3),
+#         mlp_mult = 4,
+#         channels = 3,
+#         dim_head = 64,
+#         dropout = 0.)
+## Base
 net = NesT(image_size=32,
         patch_size=1,
         num_classes=10,
-        dim=192,
-        heads=3,
+        dim=768,
+        heads=12,
         num_hierarchies=4,
         block_repeats=(3, 3, 3, 3),
         mlp_mult = 4,
