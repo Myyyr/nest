@@ -59,7 +59,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-# net = ResNet18()
+net = ResNet18()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -99,11 +99,11 @@ print('==> Building model..')
 #         dropout = 0.)
 
 ## timm : base
-net = nest.Nest(img_size=32, in_chans=3, 
-                patch_size=1, num_levels=4, 
-                embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
-                depths=(3, 3, 3, 3), num_classes=10)
-print("WE USE NEST !!!!")
+# net = nest.Nest(img_size=32, in_chans=3, 
+#                 patch_size=1, num_levels=4, 
+#                 embed_dims=(768, 768, 768, 768), num_heads=(12, 12, 12, 12),
+#                 depths=(3, 3, 3, 3), num_classes=10)
+# print("WE USE NEST !!!!")
 model_parameters = filter(lambda p: p.requires_grad, net.parameters())
 params = sum([np.prod(p.size()) for p in model_parameters])
 print("PARAMS :", params)
