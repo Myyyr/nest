@@ -158,9 +158,9 @@ class NesT(nn.Module):
         )
 
     def forward(self, img):
-        print("-1 img", img.shape)
+        # print("-1 img", img.shape)
         x = self.to_patch_embedding(img)
-        print("-1 x", x.shape)
+        # print("-1 x", x.shape)
 
         b, c, h, w = x.shape
 
@@ -168,16 +168,16 @@ class NesT(nn.Module):
 
         for level, (transformer, aggregate) in zip(reversed(range(num_hierarchies)), self.layers):
             block_size = 2 ** level
-            print(level, 'x start', x.shape)
-            print(level, 'block_size', block_size)
+            # print(level, 'x start', x.shape)
+            # print(level, 'block_size', block_size)
             x = rearrange(x, 'b c (b1 h) (b2 w) -> (b b1 b2) c h w', b1 = block_size, b2 = block_size)
-            print(level, 'x rearrange', x.shape)
+            # print(level, 'x rearrange', x.shape)
             x = transformer(x)
-            print(level, 'x trans', x.shape)
+            # print(level, 'x trans', x.shape)
             x = rearrange(x, '(b b1 b2) c h w -> b c (b1 h) (b2 w)', b1 = block_size, b2 = block_size)
-            print(level, 'x rearrange*', x.shape)
+            # print(level, 'x rearrange*', x.shape)
             x = aggregate(x)
-            print(level, 'x agg', x.shape)
+            # print(level, 'x agg', x.shape)
 
-        exit(0)
+        # exit(0)
         return self.mlp_head(x)
