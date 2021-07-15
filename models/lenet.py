@@ -20,4 +20,6 @@ class LeNet(nn.Module):
         out = F.relu(self.fc1(out))
         out = F.relu(self.fc2(out))
         out = self.fc3(out)
+        print(out.shape)
+        exit(0)
         return out
